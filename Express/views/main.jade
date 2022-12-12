@@ -1,0 +1,21 @@
+extends layout 
+
+block content 
+    body 
+
+        if authorized == true 
+            ul 
+                li 
+                    a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
+                 
+        else
+            ul 
+                li 
+                    a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile 
+                li 
+                    a( href="/users/login") Login  
+                li
+                    a(href='/users/register') Register
+            footer 
+               p Created by Georgi!
+               p Email:georgeangelov7@gmail.com

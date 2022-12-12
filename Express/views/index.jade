@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  body
+  form(action="/users/index" method="get") 
+  ul
+    li(class="w3-large")
+      a(href='/users/main' class="fa fa-home") Home
+    li(class="w3-large")
+      a(href='/users/logout' class="fa fa-trash")  Logout
+
+
+
+
+
