@@ -1,0 +1,29 @@
+extends layout 
+
+block content 
+    head 
+        h1 Company profile  
+    body 
+    form(method='post' action='/users/company')
+        p
+            label 
+                | Name
+            input(id="user_name" type='text' name='username' placeholder="Enter your username", required)
+        p
+            label 
+                | Email
+            input(id="user_email" type='email' name='email' placeholder="Enter your email", required)
+        p
+            label 
+                | Password
+            input(id="user_password" type='password' name='password' placeholder="Enter your password" pattern="(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters",required)
+        p
+            label 
+                | Company name  
+            input(type='text' name='companyName' placeholder="Enter your name", required)
+        p
+            label 
+                | Experience 
+            input(type='number' name='experience' placeholder="Enter your experience",required)
+        br    
+        button(type="submit" class='button') Enter your data  

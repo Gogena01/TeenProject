@@ -7,6 +7,7 @@ body {
   background-size: 100% 100%;
 }
 
+
 label {
   color: rgb(240, 233, 233);
   padding: 20px;
@@ -15,23 +16,23 @@ label {
 }
 
 footer {
-  
   text-align: center;
-  padding: 3px;
+  padding: 10px;
   background-color: DarkSalmon;
   color: white;
 }
 
 h1 {
-  color: #999999;
-  font-family: arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 400;
   margin-top: 0px;
   margin-bottom: 1px;
-  }
+}
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid black;
 }
 
@@ -57,4 +58,68 @@ li a {
 
 li a:hover {
   background-color: #111;
+}
+
+
+.button {
+  padding: 15px 25px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #9b232d;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {
+  background-color: #9b232d
+}
+
+.button:active {
+  background-color: #9b232d;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+.h2Dog {
+
+  text-align: left;
+  font-size: 40px;
+  text-shadow: 2px 2px #eeeaea;
+}
+
+.pDogs {
+  text-align: left;
+  font: 1em sans-serif;
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 300;
+  font-style: italic;
+  display: inline-table;
+}
+
+.h1Dogs {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  text-decoration-color: #111;
+  color: rgba(243, 227, 227, 0.774);
+  font-size: 50px;
+}
+
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 30px;
+}
+
+img:hover {
+  box-shadow: 0 0 2px 1px rgba(230, 2, 2, 0.5);
+}
+
+.offer {
+  display: flex;
+  flex-direction: row;
 }

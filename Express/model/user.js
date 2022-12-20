@@ -45,4 +45,7 @@ User.findAll().then(res => {
     console.error('Failed to retrieve data : ', error);
 });
 
+
+
+
 module.exports = User;
