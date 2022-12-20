@@ -1,27 +1,65 @@
 extends layout 
 
 block content 
+
     body 
 
         if authorized == true 
-            ul 
-                li 
-                    a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
-         
-          
-            a(href="/users/walkingDogs")  
-                img(src="../images/close-up-traveler-walking-with-dog.jpg" width="300" height="250")
-                    
-              
-            a(href='/users/babysitter')
-                img(src="../images/pexels-alex-green-5691820.jpg" width='300' height='250')
-                   
-        else 
+            if isCompany == true
+                ul 
+                    li 
+                        a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
+
+                form(method='post' action='/users/addOffer') 
+                    p
+                        label 
+                            | Name
+                        input(id="user_name" type='text' name='title' placeholder="Title of offer", required)
+                    p
+                        label 
+                            | Description
+                        input(id="user_email" type='text' name='description' placeholder="Description of offer", required)
+                    p 
+                        label
+                            | Phone 
+                        input(type='text' name="phone" placeholder="Enter your number", required)   
+
+                    br    
+                    button(type="submit" class='button') Enter your data         
+
+            else if isTeen == true     
+                ul 
+                    li 
+                        a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
+                    li 
+                        a(href="/users/offers") Offers 
+                h1(class='mainH1') Our top offers for You!
+                div(class='divOffers') 
+                    a(href="/users/walkingDogs")  
+                        img(src="../images/close-up-traveler-walking-with-dog.jpg" width="350" height="280")
+                        div(class='text-block')
+                            p Walking dogs 
+                        div(class='Description')
+                            p Dog owners enjoy numerous health and social benefits by walking their dog a few times a week. Benefits include improved cardiovascular fitness, lower blood pressure, stronger muscles and bones (built up by walking regularly), and decreased stress.
+                            p A regular walk is vitally important for your pet's health too. Obesity in pets is associated with a number of medical complaints including osteoarthritis, cardiovascular disease, liver disease and insulin resistance...    
+                            p Most dogs need to be walked at least once each day, though some dogs, particularly very active dogs, may require more. The breed of dog you have, as well as its level of fitness and age, will also determine how long and how vigorous your walk should be...            
+                br        
+                div(class='divOffers')
+                    a(href="/users/babysitter")
+                        img(src="../images/pexels-alex-green-5691820.jpg" width='350' height='280')
+                        div(class='text-block')
+                            p Babysitting  
+                        div(class='Description')
+                            p Learning to set limits and boundaries for the children, as well as how to make decisions on the spot when the children don't automatically follow these limits and boundaries.
+                            p Gaining independency at a time when they may feel like they have little control at home.
+                            p Acquiring Increased empathy towards others and the ability to see something from a different perspective...
+
+        else            
             ul 
                 li 
                     a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile 
                 li 
-                    a( href="/users/login") Login  
+                    a( href="/users/socialMedia") Login  
                 li
                     a(href='/users/register') Register
 

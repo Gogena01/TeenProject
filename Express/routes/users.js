@@ -17,8 +17,8 @@ router.use(passport.initialize());
 router.use(passport.session());
 var authorized = false
 var isTeen = false;
-var isCompany = false
-
+var isCompany = false;
+var id;
 
 function getMySQLConnection() {
   return mysql.createConnection({
@@ -73,7 +73,7 @@ router.post('/register', async (req, res, next) => {
       }
     );
 
-    res.render('login');
+    res.render('socialMedia');
     console.log(output)
 
   } catch {
@@ -105,7 +105,7 @@ router.post('/login', async (req, res, next) => {
 
     bcrypt.compare(password2, results[0].password, function (err, result) {
       if (!result) {
-        return res.render('login')
+        return res.render('socialMedia')
       } else {
         res.redirect('/users/main')
       }
@@ -132,7 +132,7 @@ router.get('/index', function (req, res, next) {
   if (req.session.isLoggedin = true && sessions != undefined) {
     res.render('index', { title: `Welcome ${sessions.username}` })
   } else {
-    res.redirect('/users/login')
+    res.redirect('/users/socialMedia')
   }
 
 });
@@ -155,7 +155,19 @@ router.get('/logout', function (req, res, next) {
 
 
 router.get('/main', function (req, res, next) {
-  res.render('main', { authorized: authorized })
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('select count(*) as count from users as u join company_profile as cp on cp.companyId = u.id where username = ?', [req.session.username], async function (error, results, fields) {
+    if (results[0].count > 0) {
+      isCompany = true;
+      res.render('main', { authorized: authorized, isCompany: isCompany });
+    } else {
+      isTeen = true;
+      res.render('main', { authorized: authorized, isTeen: isTeen });
+    }
+
+  });
+
 });
 
 
@@ -284,6 +296,58 @@ router.post('/company', async (req, res, next) => {
 router.get('/walkingDogs', function (req, res, next) {
   res.render('walkingDogs')
 });
+
+router.get('/babysitter', function (req, res, next) {
+  res.render('babysitter')
+});
+
+router.get('/socialMedia', function (req, res, next) {
+  res.render('socialMedia')
+});
+
+router.get('/offers', function (req, res, next) {
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('SELECT * FROM offers', async function (error, results, fields) {
+    if (error) throw error;
+    //result.push({id:results[0].id, title:results[0].title, description:results[0].description})
+    res.render('offers', {data:results})
+    console.log(results[0].insertId)
+  })
+ 
+});
+
+router.get('/single-offer/:id', function(req, res){
+  let offerId = req.params.id
+
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('SELECT * FROM offers where id = ?',[offerId], async function (error, results, fields) {
+    if (error) throw error; 
+    //result.push({id:results[0].id, title:results[0].title, description:results[0].description})
+    res.render('single-offer', {data:results});
+    console.log(results)    
+  })
+});
+
+
+router.post('/addOffer', function (req, res, next) {
+  const title = req.body.title;
+  const description = req.body.description;
+  const phone = req.body.phone
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('INSERT into offers(title, description) VALUES(?, ?)', [title, description], async function (error, results, fields) {
+    if (error) throw error;
+    res.redirect('/users/offers')
+    return;
+
+  });
+
+ 
+});
+
+
 
 module.exports = router;
 

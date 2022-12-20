@@ -1,0 +1,26 @@
+extends layout 
+
+block content
+    body 
+        ul 
+            li 
+
+                a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile                 
+        mixin fetch(data)
+         -each res in data
+          div(class="tableImg")  
+          a
+            div(class="row")
+            div(class="column")
+                div(class="content")
+                    a(href="/users/single-offer/#{res.id}" class='aCatalog')
+                        img(src='../images/gettyimages-811911828-2048x2048.jpg' alt='Mountains' style='width:100%' class='imgTryOut')
+                        h3 #{res.title}
+                        p(class='pDogs') 
+                        | #{res.description}
+                        br
+                        p 
+                        | #{res.phone}
+
+
+        mixin fetch(data)            
