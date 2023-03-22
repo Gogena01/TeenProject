@@ -12,13 +12,16 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.static(__dirname + '/public'));
 var cookieSession = require('cookie-session');
 var sessions;
-var passport = require('passport')
+var randtoken = require('rand-token');
+var passport = require('passport');
+const { route } = require('../app');
 router.use(passport.initialize());
 router.use(passport.session());
 var authorized = false
 var isTeen = false;
 var isCompany = false;
 var id;
+var isOk = false
 
 function getMySQLConnection() {
   return mysql.createConnection({
@@ -116,6 +119,7 @@ router.post('/login', async (req, res, next) => {
 
     req.session.isLoggedin = true;
     sessions = req.session;
+    req.session.loginId = results[0].id
     sessions.username = results[0].username;
     console.log(req.session);
 
@@ -130,7 +134,13 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/index', function (req, res, next) {
   if (req.session.isLoggedin = true && sessions != undefined) {
-    res.render('index', { title: `Welcome ${sessions.username}` })
+    var connection = getMySQLConnection();
+    connection.connect();
+    connection.query('SELECT * FROM users WHERE username=?', [sessions.username], async function (error, results, fields) {
+      res.render('index', { title: `Welcome ${sessions.username}`, result:results })
+    });
+
+    
   } else {
     res.redirect('/users/socialMedia')
   }
@@ -157,13 +167,14 @@ router.get('/logout', function (req, res, next) {
 router.get('/main', function (req, res, next) {
   var connection = getMySQLConnection();
   connection.connect();
+
   connection.query('select count(*) as count from users as u join company_profile as cp on cp.companyId = u.id where username = ?', [req.session.username], async function (error, results, fields) {
     if (results[0].count > 0) {
       isCompany = true;
       res.render('main', { authorized: authorized, isCompany: isCompany });
     } else {
-      isTeen = true;
-      res.render('main', { authorized: authorized, isTeen: isTeen });
+      isCompany = false;
+      res.render('main', { authorized: authorized, isCompany: isCompany });
     }
 
   });
@@ -311,22 +322,21 @@ router.get('/offers', function (req, res, next) {
   connection.query('SELECT * FROM offers', async function (error, results, fields) {
     if (error) throw error;
     //result.push({id:results[0].id, title:results[0].title, description:results[0].description})
-    res.render('offers', {data:results})
-    console.log(results[0].insertId)
+    res.render('offers', { data: results })
   })
- 
+
 });
 
-router.get('/single-offer/:id', function(req, res){
+router.get('/single-offer/:id', function (req, res) {
   let offerId = req.params.id
 
   var connection = getMySQLConnection();
   connection.connect();
-  connection.query('SELECT * FROM offers where id = ?',[offerId], async function (error, results, fields) {
-    if (error) throw error; 
+  connection.query('SELECT * FROM offers where id = ?', [offerId], async function (error, results, fields) {
+    if (error) throw error;
     //result.push({id:results[0].id, title:results[0].title, description:results[0].description})
-    res.render('single-offer', {data:results});
-    console.log(results)    
+    res.render('single-offer', { data: results });
+    console.log(results)
   })
 });
 
@@ -335,20 +345,134 @@ router.post('/addOffer', function (req, res, next) {
   const title = req.body.title;
   const description = req.body.description;
   const phone = req.body.phone
+  const id = sessions.loginId
   var connection = getMySQLConnection();
   connection.connect();
-  connection.query('INSERT into offers(title, description) VALUES(?, ?)', [title, description], async function (error, results, fields) {
+  connection.query('INSERT into offers(id, title, description, phone) VALUES(?, ?, ?, ?)', [id, title, description, phone], async function (error, results, fields) {
     if (error) throw error;
     res.redirect('/users/offers')
     return;
 
   });
 
- 
+
 });
+
+
+router.post('/search', function (req, res, next) {
+  let offerId = req.body.offerName
+
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query(`SELECT * FROM offers where title like '%${offerId}%'`, async function (error, results, fields) {
+    if (error) throw error;
+    //result.push({id:results[0].id, title:results[0].title, description:results[0].description})
+    isOk = true
+    res.render('offers', { result: results, isOk: isOk });
+    console.log(results)
+  })
+});
+
+
+router.get('/forgotpassword', function (req, res, next) {
+  res.render('forgotpassword')
+});
+
+router.get('/updatepassword', function (req, res, next) {
+  res.render('updatepassword');
+})
+
+router.post('/forgotpassword', async function (req, res, next) {
+  /* send reset password link in email */
+  var email = req.body.email;
+
+  //console.log(sendEmail(email, fullUrl));
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('SELECT * FROM users WHERE email = ?', [email], function (err, result) {
+    if (err) throw err;
+
+
+    if (result[0].email.length > 0) {
+      var token = randtoken.generate(20);
+
+
+      connection.query('INSERT into reset(userId, token) VALUES(?, ?)', [result[0].id, token], function (err, results) {
+        if (err) throw err;
+        res.render('updatepassword', { token: token })
+      })
+    }
+  });
+
+})
+
+
+router.post('/updatepassword', async function (req, res, next) {
+  var passwordMain = req.body.password;
+  var token = req.body.token
+
+  const salt = await bcrypt.genSalt();
+
+  let password2 = await bcrypt.hash(passwordMain, salt);
+
+  var data = {
+    password: password2
+  }
+
+  var connection = getMySQLConnection();
+  connection.connect();
+  connection.query('SELECT * FROM reset WHERE token = ?', [token], function (err, result) {
+    if (err) throw err;
+
+    connection.query(`UPDATE users SET ? WHERE id = ${result[0].userId}`, data, function (err, results) {
+      res.send('Success')
+    })
+  })
+})
+
+
+router.get('/makeRequestForJob/:id', function (req, res, next) {
+  var id = req.params.id
+  res.render('makeRequestForJob', { id: id });
+})
+
+router.post('/makeJobRequestForJob', function (req, res, next) {
+  var id = req.body.id
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var age = req.body.age;
+  var email = req.body.email;
+
+  var connection = getMySQLConnection();
+  connection.connect();
+
+  connection.query('SELECT * FROM users WHERE id = ?', [id], function (err, result) {
+    if (err) throw err;
+
+    connection.query('INSERT into requestjob(userId, firstName, LastName, age, email) VALUES(?, ?, ?, ?, ?)', [result[0].id, firstName, lastName, age, email], function (err, results) {
+      if (err) throw err;
+      res.redirect('/users/main')
+    })
+  })
+
+})
+
+router.get('/jobRequests', function (req, res, next) {
+  var connection = getMySQLConnection();
+  connection.connect();
+
+  connection.query('SELECT * FROM requestjob where userId = ?', [sessions.loginId], function(err, result) {
+      res.render('jobRequests', {result:result});
+  })
+  
+})
+
+
 
 
 
 module.exports = router;
 
-
+//$10$72QpiVTmTgBQEU4OO0lg2eZppubUxnJBGwtpELnQjN/aOQ2CLOZyi
+//$2b$10$72QpiVTmTgBQEU4OO0lg2eZppubUxnJBGwtpELnQjN/aOQ2CLOZyi
+//$10$72QpiVTmTgBQEU4OO0lg2eZppubUxnJBGwtpELnQjN/aOQ2CLOZyi

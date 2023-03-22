@@ -10,31 +10,17 @@ block content
             form(method='post' action='/users/login')
                 div(class="row")
                     h2(style='text-align:center' class="h1Dogs") Login with Social Media or Manually
-                    div(class="vl")
-                        span(class="vl-innertext") or
-                    div(class="col")
-                        a(href='#' class="fb-btn")
-                            i(class="fa fa-facebook fa-fw")
-                            |  Login with Facebook
-                        br    
-                        a(href='#' class="twitter-btn")
-                            i(class="fa fa-twitter fa-fw")
-                            |  Login with Twitter
-                        br    
-                        a(href='#' class="google-btn")
-                            i(class="fa fa-google fa-fw")
-                            |  Login with Google+    
-                    div(class="col")
-                        div(class="hide-md-lg")
-                            p Or sign in manually:
-                        input(class="inputFrom" type='text' name='email' placeholder='Email' required='')
-                        input(class="inputFrom" type='password' name='password' placeholder='Password' required='')
+                    
+                        input(class="inputFrom" type='text' name='email' placeholder='Email' style="color:black" required='')
+                        br
+                        input(class="inputFrom" type='password' name='password' placeholder='Password' style="color:black" required='')
+                        br 
                         input(class="inputFrom" type='submit' value='Login')
         div(class="bottom-container")
             div(class="row")
                 div(class="col")
                     a(class='btn' href='/users/register' style='color:white' ) Sign up
                 div(class="col")
-                    a(class="btn" href='#' style='color:white') Forgot password?
+                    a(class="btn" href='/users/forgotpassword' style='color:white') Forgot password?
 
 

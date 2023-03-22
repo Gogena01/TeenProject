@@ -1,26 +1,57 @@
-extends layout 
-
+html 
+head
+    link(rel='stylesheet' href='/stylesheets/offers.css')
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 block content
     body 
         ul 
             li 
 
-                a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile                 
+                a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile 
+            li       
+                        form(action="/users/search", method="post" class="searchBar")
+                            input(type="search" name="offerName" class='inputSearch') 
+                            button(type="submit") Search 
+        if isOk == true
+                    mixin fetch(result)
+                        -each res in result 
+                                div(class="tableImg")  
+                                a
+                                        div(class="row")
+                                        div(class="column")
+                                            div(class="content")
+                                                a(href="/users/single-offer/#{res.id}" class='aCatalog')
+                                                    h3 #{res.title}
+                                                    p #{res.description}
+                                                    
+                                                                   
+                    
+                    mixin fetch(result)     
+    - if(data != undefiend)
         mixin fetch(data)
-         -each res in data
-          div(class="tableImg")  
-          a
-            div(class="row")
-            div(class="column")
-                div(class="content")
-                    a(href="/users/single-offer/#{res.id}" class='aCatalog')
-                        img(src='../images/gettyimages-811911828-2048x2048.jpg' alt='Mountains' style='width:100%' class='imgTryOut')
-                        h3 #{res.title}
-                        p(class='pDogs') 
-                        | #{res.description}
-                        br
-                        p 
-                        | #{res.phone}
+            -each res in data
+
+                div(class='box') 
+                    a(href="/users/single-offer/#{res.id}")
+                        div(class='wave -one')
+                        div(class='wave -two')
+                        div(class='wave -three')
+                        div(class='title') #{res.title}
+                                
+                                         
+
 
 
         mixin fetch(data)            
+
+
+
+//- div(class="tableImg")  
+                        a
+                            div(class="row")
+                            div(class="column")
+                                div(class="content")
+                                    a(href="/users/single-offer/#{res.id}" class='aCatalog')
+                                        h3 #{res.title}
+                                        p #{res.description}

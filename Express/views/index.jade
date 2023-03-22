@@ -1,7 +1,14 @@
-extends layout
+html
+    link(rel='stylesheet' href='/stylesheets/profile.css')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js")
 
 block content
-  h1= title
+  h1(style="color:white")= title
   body
   form(action="/users/index" method="get") 
   ul
@@ -10,7 +17,35 @@ block content
     li(class="w3-large")
       a(href='/users/logout' class="fa fa-trash")  Logout
 
-
+  mixin fetch(result)    
+      -each res in result
+            #page-content.page-content.page-container
+            .padding
+              .row.container.d-flex.justify-content-center
+                .col-xl-6.col-md-12
+                  .card.user-card-full
+                    .row.m-l-0.m-r-0
+                      .col-sm-4.bg-c-lite-green.user-profile
+                        .card-block.text-center.text-white
+                          .m-b-25
+                            img.img-radius(src='https://img.icons8.com/bubbles/100/000000/user.png' alt='User-Profile-Image')
+                          h6.f-w-600 #{res.username}
+                          i.mdi.mdi-square-edit-outline.feather.icon-edit.m-t-10.f-16
+                      .col-sm-8
+                        .card-block
+                          h6.m-b-20.p-b-5.b-b-default.f-w-600 Information
+                          .row
+                            .col-sm-6
+                              p.m-b-10.f-w-600 Email
+                              h6.text-muted.f-w-400 #{res.email}
+                            .col-sm-6
+                              p.m-b-10.f-w-600 Username
+                              h6.text-muted.f-w-400 #{res.username}
+  mixin fetch(result)               
+               
+                
+            
+  
 
 
 

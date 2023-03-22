@@ -1,13 +1,20 @@
 extends layout
 
 block content
-    body 
-   
-        mixin fetch(data)
-         -each res in data
-        
-           h1 #{res.title}
-              article 
+  body 
+    ul 
+      li 
+          a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
+      li 
+          a(href="/users/offers") Offers    
+    mixin fetch(data)
+      -each res in data
+        div(class="jumbotron2")
+            h1(class='display-4') #{res.title}
+            p(class="lead") #{res.description}
+            hr(class="my-4")
+            h2(class='lead') You can contact us
+            p(class='pOffer') #{res.phone}
+        a(href='/users/makeRequestForJob/#{res.id}' class='btn btn-primary') Make requset for the job     
 
-        mixin fetch(data)            
-  
+    mixin fetch(data)            

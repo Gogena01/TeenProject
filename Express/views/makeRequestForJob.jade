@@ -1,0 +1,35 @@
+html
+  head
+    link(rel='stylesheet' href='/stylesheets/makerRequestStyle.css')
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  body
+    block content
+        div(class="sidebar")
+            a(href="/users/main") Home 
+                i(class="fa fa-fw fa-home")
+            a(href="/users/profile") Profile
+                i(class="glyphicon glyphicon-user")
+
+        div(class="center")
+            h1 Make job request
+            form(action="/users/makeJobRequestForJob", method="post" class='RequestJobForm')
+                input(type='hidden' name='id' value='#{id}')
+                div(class="inputbox")
+                    input(type="text" name='firstName'  required)
+                    span Firstname
+                br
+                div(class="inputbox")
+                    input(type="text" name='lastName' required)
+                    span Lastname 
+                br
+                div(class="inputbox")
+                    input(type="text" name='age' required)
+                    span Age  
+                br
+                div(class="inputbox")
+                    input(type="email" name='email' required)
+                    span Email  
+                br
+                div(class="inputbox")
+                    button(type="submit") Enter your data 

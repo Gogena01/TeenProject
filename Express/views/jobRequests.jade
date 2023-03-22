@@ -1,0 +1,27 @@
+extends layout 
+
+block content
+  body 
+       ul 
+            li 
+                a(class="active" href="/users/index" class="glyphicon glyphicon-user") Profile
+            li 
+                a(href="/users/offers") Offers
+
+
+        mixin fetch(result)
+            -each res in result
+                
+                div(class="w3-container")
+                    div(class="w3-card-4 w3-grey" style="width:20%")
+                        div(class="w3-container w3-center")
+                                h2(style="font-family:cursive;color:black") Email:#{res.email}
+                                h2(style="font-family:cursive;color:black") Age:#{res.age}
+                                img(src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" style="width:75%;")
+                                h2(style="font-family:cursive;color:black") #{res.firstName} #{res.lastName}
+
+                br                     
+                            
+                    
+
+        mixin fetch(result)
