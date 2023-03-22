@@ -16,14 +16,12 @@ block content
         if isOk == true
                     mixin fetch(result)
                         -each res in result 
-                                div(class="tableImg")  
-                                a
-                                        div(class="row")
-                                        div(class="column")
-                                            div(class="content")
-                                                a(href="/users/single-offer/#{res.id}" class='aCatalog')
-                                                    h3 #{res.title}
-                                                    p #{res.description}
+                            div(class='box') 
+                                    a(href="/users/single-offer/#{res.id}")
+                                        div(class='wave -one')
+                                        div(class='wave -two')
+                                        div(class='wave -three')
+                                        div(class='title') #{res.title}
                                                     
                                                                    
                     
