@@ -46,6 +46,10 @@ ul {
   background-color: hsla(262, 84%, 22%, 0.568);
 }
 
+#hrSingOff {
+ border: solid 1px black;
+}
+
 li {
   float: left;
   font-size: 1.3em;
@@ -470,6 +474,9 @@ a:hover+div {
   width: 600px;
 }
 
+.my-4 {
+  color: black;
+}
 
 .jumbotron2 {
   width: 50vh;

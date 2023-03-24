@@ -12,7 +12,7 @@ block content
         div(class="jumbotron2")
             h1(class='display-4') #{res.title}
             p(class="lead") #{res.description}
-            hr(class="my-4")
+            hr(class="my-4" id='hrSingOff')
             h2(class='lead') You can contact us
             p(class='pOfferPhone') #{res.phone}
         a(href='/users/makeRequestForJob/#{res.id}' class='btn btn-primary') Make requset for the job     
