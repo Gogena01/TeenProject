@@ -12,7 +12,7 @@ block content
             li       
                         form(action="/users/search", method="post" class="searchBar")
                             input(type="search" name="offerName" class='inputSearch') 
-                            button(type="submit") Search 
+                            button(type="submit" class="btnSearch") Search 
         if isOk == true
                     mixin fetch(result)
                         -each res in result 

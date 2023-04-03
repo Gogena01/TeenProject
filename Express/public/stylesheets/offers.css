@@ -118,3 +118,14 @@ li a:hover {
         transform: rotate(360deg);
     }
 }
+
+
+.btnSearch {
+    background-color: rgba(76, 76, 233, 0.925);
+    border-color: rgba(11, 11, 124, 0.925);
+    color: white;
+    margin-left: 10px;
+
+ }
+
+ 
