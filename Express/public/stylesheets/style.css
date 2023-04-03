@@ -500,3 +500,11 @@ a:hover+div {
   font-size: 25px;
   padding: 100px;
 }
+
+
+.addOfferForm {
+  background-color: rgba(248, 221, 221, 0.671);
+  width: fit-content;
+  padding: 40px;
+  color: black;
+}

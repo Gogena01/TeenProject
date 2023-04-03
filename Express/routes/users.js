@@ -122,6 +122,11 @@ router.post('/login', async (req, res, next) => {
     req.session.loginId = results[0].id
     sessions.username = results[0].username;
     console.log(req.session);
+    if(isCompany == true) {
+      req.session.company = true;
+    }else {
+      req.session.company = false;
+    }
 
     req.session.save()
     authorized = true
@@ -171,8 +176,10 @@ router.get('/main', function (req, res, next) {
   connection.query('select count(*) as count from users as u join company_profile as cp on cp.companyId = u.id where username = ?', [req.session.username], async function (error, results, fields) {
     if (results[0].count > 0) {
       isCompany = true;
-      res.render('main', { authorized: authorized, isCompany: isCompany });
+     
+      res.render('main', { authorized: authorized, isCompany:req.session.company });
     } else {
+      console.log(req.session)
       isCompany = false;
       res.render('main', { authorized: authorized, isCompany: isCompany });
     }
