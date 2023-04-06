@@ -408,7 +408,7 @@ a:hover+div {
 }
 
 .jumbotron2 {
-  background-color: rgba(255, 255, 255, 0.877);
+  background-color: rgba(152, 140, 216, 0.877);
   width: fit-content;
   height: 20rem;
 }
@@ -500,6 +500,23 @@ a:hover+div {
   font-size: 25px;
   padding: 100px;
 }
+
+.updatePassowrdForm button {
+   background-color: #0751f0e5;
+   border-color:#0751f0e5;
+   border-radius: 7%;
+   position: absolute;
+   left: 10%;
+   color: rgb(0, 0, 0);
+   opacity: 0.7;
+   transition: all 0.5s;
+}
+
+.updatePassowrdForm button:hover{
+   opacity: 1;
+   
+}
+
 
 
 .addOfferForm {
